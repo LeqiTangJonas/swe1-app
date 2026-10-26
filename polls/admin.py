@@ -1,5 +1,3 @@
-from django.contrib import admin
-
 # Register your models here.
 from django.contrib import admin
 
@@ -12,8 +10,10 @@ class ChoiceInline(admin.TabularInline):
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    fieldsets = [(None, {"fields": ["question_text"]}),
-                 ("Date information", {"fields": ["pub_date"], "classes": ["collapse"]})]
+    fieldsets = [
+        (None, {"fields": ["question_text"]}),
+        ("Date information", {"fields": ["pub_date"], "classes": ["collapse"]}),
+    ]
     inlines = [ChoiceInline]
     list_display = ["question_text", "pub_date", "was_published_recently"]
     list_filter = ["pub_date"]
