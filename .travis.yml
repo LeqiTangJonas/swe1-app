@@ -1,0 +1,30 @@
+language: python
+python:
+  - "3.12"
+
+cache: pip
+
+install:
+  - python -m pip install --upgrade pip
+  - python -m pip install -r requirements-dev.txt
+
+script:
+  - black --check .
+  - flake8 .
+  - coverage run manage.py test
+  - coverage report
+
+after_success:
+  - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then coveralls; fi
+
+deploy:
+  provider: elasticbeanstalk
+  edge: true
+  access_key_id: $AWS_ACCESS_KEY_ID
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
+  region: us-east-1
+  app: swe1-app
+  env: swe1-app-env
+  bucket: elasticbeanstalk-us-east-1-302365069465
+  on:
+    branch: main

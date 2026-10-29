@@ -1,5 +1,8 @@
 # swe1-app
 
+[![Build Status](https://app.travis-ci.com/LeqiTangJonas/swe1-app.svg?branch=main)](https://app.travis-ci.com/github/LeqiTangJonas/swe1-app)
+[![Coverage Status](https://coveralls.io/repos/github/LeqiTangJonas/swe1-app/badge.svg?branch=main)](https://coveralls.io/github/LeqiTangJonas/swe1-app?branch=main)
+
 A Django 5.2 polls app following tutorial parts 1–4: browse published polls,
 vote, see results, and manage questions and choices in Django admin.
 
@@ -15,6 +18,27 @@ Requires Python 3.10 or newer.
 
 Open http://127.0.0.1:8000/polls/. Create an admin user with
 python manage.py createsuperuser, then visit /admin/ to add questions and choices.
+
+## Continuous integration
+
+Travis CI runs Black, Flake8, and the Django test suite with Coverage.py on pushes
+and pull requests. Successful pushes to `main` deploy to the Elastic Beanstalk
+environment. Pull request builds run checks but do not deploy.
+
+Install the development tools and run the same checks locally:
+
+    python -m pip install -r requirements-dev.txt
+    black --check .
+    flake8 .
+    coverage run manage.py test
+    coverage report
+
+Travis requires repository environment variables `AWS_ACCESS_KEY_ID`,
+`AWS_SECRET_ACCESS_KEY`, and `COVERALLS_REPO_TOKEN`. Store these in the Travis
+repository settings; never commit credentials to this repository. Use a dedicated
+IAM identity for deployment credentials, not AWS root credentials.
+
+Travis dashboard: https://app.travis-ci.com/github/LeqiTangJonas/swe1-app
 
 ## Deploy to AWS Elastic Beanstalk
 
